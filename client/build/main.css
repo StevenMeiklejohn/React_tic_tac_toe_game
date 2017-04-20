@@ -16,10 +16,12 @@ body {
 }
 
 img {
+  display: float;
   height: 200px;
   width: 200px;
   display: inline-block;
   margin: 10px;
+  text-align: center;
 }
 
 .Reset {
@@ -52,7 +54,12 @@ img {
     margin-top: 30px;
 }
 
-.CharactersBox{
+
+
+.TilesBox{
+  display: float;
+  height: 700px;
+  width: 700px;
   text-align: center;
 }
 

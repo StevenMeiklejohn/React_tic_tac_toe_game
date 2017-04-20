@@ -4624,47 +4624,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(14);
-var QuestionsForm = __webpack_require__(53);
-
-var CharactersBox = React.createClass({
-  displayName: 'CharactersBox',
-
-
-  render: function render() {
-    var characters = this.props.data;
-    console.log(characters);
-
-    var characterList = characters.map(function (character, index) {
-      return React.createElement('img', {
-        id: character.Name,
-        key: index,
-        index: index,
-        onClick: this.props.changeImage,
-        alt: '',
-        src: character.src,
-        width: '200px',
-        length: '300px'
-      });
-    }.bind(this));
-
-    return React.createElement(
-      'div',
-      null,
-      characterList
-    );
-  }
-});
-
-module.exports = CharactersBox;
-
-/***/ }),
+/* 33 */,
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6717,54 +6677,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(14);
-var CharactersBox = __webpack_require__(33);
-
-var QuestionsForm = React.createClass({
-  displayName: 'QuestionsForm',
-
-
-  render: function render() {
-    var array = ["Fictional", "Alive", "Politician", "Hair", "Moustache"];
-    var options = array.map(function (characteristic, index) {
-      return React.createElement(
-        'option',
-        { value: characteristic, key: index },
-        characteristic,
-        ' '
-      );
-    });
-    return React.createElement(
-      'div',
-      { className: 'QuestionsForm' },
-      React.createElement(
-        'div',
-        { id: 'VillainForm1' },
-        React.createElement(
-          'select',
-          { id: 'DoesVillainHave',
-            onChange: this.props.handleQuestion },
-          React.createElement(
-            'option',
-            { value: '', key: '', describe: '' },
-            ' Select '
-          ),
-          options
-        )
-      )
-    );
-  }
-});
-
-module.exports = QuestionsForm;
-
-/***/ }),
+/* 53 */,
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10929,228 +10842,10 @@ module.exports = isTextInputElement;
 
 /***/ }),
 /* 88 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-var React = __webpack_require__(14);
-var GuessForm = __webpack_require__(91);
-var Reset = __webpack_require__(93);
-var CharactersBox = __webpack_require__(33);
-var QuestionsForm = __webpack_require__(53);
-var NationalityForm = __webpack_require__(92);
-var bastards = __webpack_require__(94);
-
-var GameBox = React.createClass({
-  displayName: 'GameBox',
-
-  getInitialState: function getInitialState() {
-    return { allBastards: bastards, gameVillain: null };
-  },
-
-  componentDidMount: function componentDidMount() {
-    this.selectRandomCharacter();
-  },
-
-  selectRandomCharacter: function selectRandomCharacter() {
-    var villains = this.state.allBastards;
-    var rand = villains[Math.floor(Math.random() * villains.length)];
-    this.setState({ eliminated: villains });
-    this.setRandomCharacter(rand);
-  },
-
-  setRandomCharacter: function setRandomCharacter(name) {
-    var gVillain = name;
-    this.setState({ gameVillain: gVillain });
-    console.log(gVillain);
-  },
-
-  getVillains: function getVillains() {
-    var villains = [];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = this.state.allBastards[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var item = _step.value;
-
-        villains.push(item.Name);
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    return villains;
-  },
-
-  correctResponse: function correctResponse() {
-    var villains = this.state.allBastards;
-    this.changeImageEnMass(villains);
-    swal("Yay!", "Good guess! You are one step closer to pinning down that sneaky bastard.", "success");
-  },
-
-  incorrectResponse: function incorrectResponse() {
-    var villains = this.state.allBastards;
-    this.changeImageEnMass(villains);
-    swal("Oops!", "Your selection is not true of the bastard in question", "error");
-  },
-
-  checkForGoodSelection: function checkForGoodSelection(e) {
-    var cpuPlayer = this.state.gameVillain;
-    var villains = this.state.allBastards;
-    var selection = e.target.value;
-
-    if (cpuPlayer[selection] === "Yes") {
-      var villainsNew = villains.map(function (el) {
-        console.log(el);
-        if (el[selection] === "No") {
-          el.src = "./images/not_this_bastard.jpg";
-        }
-        return el;
-      });
-      this.setState({ allBastards: villainsNew });
-      this.correctResponse();
-    }
-    if (cpuPlayer[selection] === "No") {
-      var villainsNew = villains.map(function (el) {
-        console.log(el);
-        if (el[selection] === "Yes") {
-          el.src = "./images/not_this_bastard.jpg";
-        }
-        return el;
-      });
-      this.setState({ allBastards: villainsNew });
-      this.incorrectResponse();
-    }
-  },
-
-  handleVillain: function handleVillain(e) {
-    var options = this.state.allBastards;
-    var cpuPlayer = this.state.gameVillain;
-    var index = e.target.value;
-    console.log(options);
-    console.log(options[index]);
-
-    if (options[index].Name === cpuPlayer.Name) {
-      this.handleWin();
-    } else {
-      this.handleLose();
-    }
-  },
-
-  handleWin: function handleWin() {
-    console.log("You Win");
-    swal("You Win!", "Yaaaaaaaaaaaaaaas!", "success");
-  },
-
-  handleLose: function handleLose() {
-    console.log("You Lose");
-    swal("Oops!", "Close but no cigar", "error");
-  },
-
-  changeImage: function changeImage(e) {
-    var all = this.state.allBastards;
-    var cpuPlayer = this.state.gameVillain;
-    var target = e.target;
-    var index = e.target.value;
-    console.log(target.id);
-
-    if (cpuPlayer.Name === target.id) {
-      this.handleWin();
-    }
-    if (cpuPlayer.Name != target.id) {
-      this.handleLose();
-      var villains = all.map(function (el) {
-        console.log(el);
-        if (el.Name === target.id) {
-          el.src = "./images/not_this_bastard.jpg";
-        }
-      });
-      this.setState({ allBastards: all });
-    }
-  },
-
-  changeImageEnMass: function changeImageEnMass() {
-    var all = this.state.allBastards;
-    this.render();
-    return all;
-  },
-
-  handleReset: function handleReset() {
-    console.log("Rest function");
-    window.location.reload();
-  },
-
-  render: function render() {
-    return React.createElement(
-      'div',
-      { className: 'GameBox' },
-      React.createElement(
-        'h1',
-        { id: 'title' },
-        'Guess The Bastard'
-      ),
-      React.createElement(
-        'div',
-        { className: 'CharactersBox' },
-        React.createElement(CharactersBox, {
-          data: this.state.allBastards,
-          changeImage: this.changeImage,
-          changeImageEnMass: this.changeImageEnMass
-        })
-      ),
-      React.createElement(
-        'div',
-        { className: 'QuestionsForm' },
-        React.createElement(
-          'h1',
-          { id: 'DoesVillainHave' },
-          'Eliminate Some Bastards'
-        ),
-        React.createElement(QuestionsForm, {
-          data: this.state.allBastards,
-          handleQuestion: this.checkForGoodSelection
-        })
-      ),
-      React.createElement(
-        'div',
-        { className: 'GuessForm' },
-        React.createElement(
-          'h1',
-          { id: 'VillainGuess' },
-          'Guess The Bastard'
-        ),
-        React.createElement(GuessForm, {
-          data: this.state.allBastards,
-          villains: this.getVillains(),
-          handleVillain: this.handleVillain
-        })
-      ),
-      React.createElement(
-        'div',
-        { className: 'Reset' },
-        React.createElement(Reset, {
-          handleReset: this.handleReset
-        })
-      )
-    );
-  }
-});
-
-module.exports = GameBox;
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (76:2)\n\n\u001b[0m \u001b[90m 74 | \u001b[39m\n \u001b[90m 75 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 76 | \u001b[39m  render\u001b[33m:\u001b[39m \u001b[36mfunction\u001b[39m() {\n \u001b[90m    | \u001b[39m  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 77 | \u001b[39m    \u001b[36mreturn\u001b[39m (\n \u001b[90m 78 | \u001b[39m      \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m\"GameBox\"\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 79 | \u001b[39m        \u001b[33m<\u001b[39m\u001b[33mh1\u001b[39m id\u001b[33m=\u001b[39m\u001b[32m\"title\"\u001b[39m\u001b[33m>\u001b[39m\u001b[33mTic\u001b[39m\u001b[33m-\u001b[39m\u001b[33mTac\u001b[39m\u001b[33m-\u001b[39m\u001b[33mToe\u001b[39m\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mh1\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 89 */
@@ -11172,7 +10867,7 @@ module.exports = __webpack_require__(66);
 var React = __webpack_require__(14);
 var ReactDOM = __webpack_require__(89);
 var GameBox = __webpack_require__(88);
-var CharactersBox = __webpack_require__(33);
+var TilesBox = __webpack_require__(166);
 
 window.onload = function () {
   ReactDOM.render(React.createElement(
@@ -11183,275 +10878,10 @@ window.onload = function () {
 };
 
 /***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(14);
-
-var GuessForm = React.createClass({
-  displayName: "GuessForm",
-
-
-  render: function render() {
-    var bastard = this.props.villains.map(function (villain, index) {
-      return React.createElement(
-        "option",
-        { value: index, key: index },
-        villain,
-        " "
-      );
-    });
-    console.log(bastard);
-    return React.createElement(
-      "div",
-      { className: "GuessForm" },
-      React.createElement(
-        "div",
-        { id: "Guess" },
-        React.createElement(
-          "select",
-          { id: "GuessVillain",
-            onChange: this.props.handleVillain },
-          React.createElement(
-            "option",
-            { id: "", selected: true },
-            "Select"
-          ),
-          bastard
-        )
-      )
-    );
-  }
-});
-
-module.exports = GuessForm;
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(14);
-
-var NationalityForm = React.createClass({
-  displayName: "NationalityForm",
-
-
-  render: function render() {
-    var nation = this.props.nations.map(function (country, index) {
-      return React.createElement(
-        "option",
-        { value: index, key: country },
-        " ",
-        country,
-        " "
-      );
-    });
-    console.log(nation);
-    return React.createElement(
-      "div",
-      { className: "NationalityForm" },
-      React.createElement(
-        "div",
-        { id: "Nationality" },
-        React.createElement(
-          "select",
-          { id: "Nationalities", onChange: this.props.handleCountry },
-          React.createElement(
-            "option",
-            { id: "", selected: true },
-            "Select"
-          ),
-          nation
-        )
-      )
-    );
-  }
-});
-
-module.exports = NationalityForm;
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var React = __webpack_require__(14);
-
-var Reset = React.createClass({
-  displayName: "Reset",
-
-
-  render: function render() {
-
-    return React.createElement(
-      "div",
-      { className: "Reset" },
-      React.createElement(
-        "div",
-        { id: "Reset" },
-        React.createElement(
-          "button",
-          { className: "button", onClick: this.props.handleReset },
-          "New Game"
-        )
-      )
-    );
-  }
-});
-
-module.exports = Reset;
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = [{ Name: "Darth Vader",
-  Fictional: "Yes",
-  Alive: "No",
-  Politician: "Yes",
-  Hair: "No",
-  Moustache: "No",
-  src: "./images/DarthVader.jpg"
-}, { Name: "Ming The Merciless",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "No",
-  Moustache: "Yes",
-  src: "./images/MingTheMerciless.jpg"
-}, { Name: "Skeletor",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "No",
-  Moustache: "No",
-  src: "./images/Skeletor.jpg"
-}, { Name: "Hitler",
-  Fictional: "No",
-  Alive: "No",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "Yes",
-  src: "./images/Hitler.jpg"
-}, { Name: "Stalin",
-  Fictional: "No",
-  Alive: "No",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "Yes",
-  src: "./images/Stalin.jpg"
-}, { Name: "Trump",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Trump.jpg"
-}, { Name: "Joffrey",
-  Fictional: "Yes",
-  Alive: "No",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Joffrey.jpg"
-}, { Name: "Dr Doom",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "No",
-  Moustache: "No",
-  src: "./images/DrDoom.jpg"
-}, { Name: "Justin Bieber",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/JustinBieber.jpg"
-}, { Name: "Mumm-Ra",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "No",
-  Moustache: "No",
-  src: "./images/Mumm-Ra.jpg"
-}, { Name: "M Bison",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Mbison.jpg"
-}, { Name: "Katie Hopkins",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Hopkins.jpg"
-}, { Name: "Jon Snow",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/JonSnow.jpg"
-}, { Name: "Maria Carey",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/mariah-carey.jpg"
-}, { Name: "George Osborne",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/osborne.jpg"
-}, { Name: "Simon Cowell",
-  Fictional: "No",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Simon-Cowell.jpg"
-}, { Name: "Thanos",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "No",
-  Hair: "No",
-  Moustache: "Moustache",
-  src: "./images/thanos.png"
-}, { Name: "Thatcher",
-  Fictional: "No",
-  Alive: "No",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/Thatcher.jpg"
-}, { Name: "Zelda",
-  Fictional: "Yes",
-  Alive: "Yes",
-  Politician: "Yes",
-  Hair: "Yes",
-  Moustache: "No",
-  src: "./images/zelda.jpeg"
-}];
-
-/***/ }),
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20519,6 +19949,46 @@ module.exports = quoteAttributeValueForBrowser;
 var ReactMount = __webpack_require__(5);
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(14);
+
+var TilesBox = React.createClass({
+  displayName: "TilesBox",
+
+
+  render: function render() {
+    var board = this.props.board;
+    console.log(board);
+
+    var gameBoard = board.map(function (tile, index) {
+      return React.createElement("img", {
+        id: tile.Number,
+        key: tile.Number,
+        index: tile.Number,
+        onClick: this.props.changeImage,
+        alt: "",
+        src: tile.src,
+        width: "200px",
+        length: "200px"
+      });
+    }.bind(this));
+
+    return React.createElement(
+      "div",
+      null,
+      gameBoard
+    );
+  }
+});
+
+module.exports = TilesBox;
 
 /***/ })
 /******/ ]);

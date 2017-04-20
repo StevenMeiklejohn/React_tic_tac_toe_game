@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var GameBox = require('./components/GameBox.jsx');
-var CharactersBox = require('./components/CharactersBox.jsx')
+var TilesBox = require('./components/TilesBox.jsx')
 
 
 window.onload = function(){
